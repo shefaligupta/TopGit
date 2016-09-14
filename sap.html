@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="assets/ico/favicon.ico">
+
+  <title>TopGit</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="assets/css/bootstrap.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <!-- Just for debugging purposes. Don't actually copy this line! -->
+  <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+<style>
+.img_result{
+  width: 6%;
+}
+
+#h4{
+  color: #384452;
+}
+
+#headerwrap h3, h5 {
+  color: red;
+  font-weight: 400;
+}
+
+.popular-posts li {
+  list-style: none;
+  margin-bottom: 50px;
+  min-height: 70px;
+}
+
+.colora{
+  color:blue !important;
+}
+</style>
+<body>
+  <div ng-app="myApp" ng-controller="myCtrl">
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand">TOPGIT</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- *****************************************************************************************************************
+    BLUE WRAP
+    ***************************************************************************************************************** -->
+    <div id="blue">
+      <div class="container">
+        <div class="row">
+          <h3>Finding the best GIT repositories</h3>
+        </div><!-- /row -->
+      </div> <!-- /container -->
+    </div><!-- /blue -->
+
+
+    <!-- *****************************************************************************************************************
+    BLOG CONTENT
+    ***************************************************************************************************************** -->
+
+    <div class="container">
+      <div class="row">
+
+        <! -- MAIN CONTENT -->
+        <div class="col-lg-12">
+          <h4>Search</h4>
+          <div class="hline"></div>
+          <br>
+          <div class="col-lg-8">
+            <input type="text" class="form-control" placeholder="Search (by language)" ng-model="form.searchKeyword">
+          </div>
+          <div class="col-lg-4">
+            <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="searchRepositoryUsingLanguage()">
+              <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            </button>
+          </div>
+          <img ng-show="loader" ng-src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif">
+          <div class="spacing"></div>
+
+          <h4>Results <span> - showing {{number}} repositories</span></h4>
+          <div class="hline"></div>
+
+          <div ng-if="number>0">
+            Filter: Stars: {{form.stars}} <input type="range" min="1" max="1000000" ng-model="form.stars" ng-change="filterData()">
+            <button ng-click="resetData()">Reset</button>
+          </div>
+
+          <ul class="popular-posts" ng-hide="filter">
+            <li ng-repeat="item in searchResults">
+              <img ng-src="http://www.escope.cz/images/gr200.png" class="img_result">
+              <h4>{{item.full_name}} - #{{item.language}}</h4>
+              <p>Click Here - <a class="colora" ng-click="openUrl(item)" href="">{{item.html_url}}</a>
+                <h5>{{item.description}}</h5>
+              </p>
+            </li>
+          </ul>
+
+          <ul class="popular-posts" ng-show="filter">
+            <li ng-repeat="item in data">
+              <img ng-src="http://www.escope.cz/images/gr200.png" class="img_result">
+              <h4>{{item.full_name}} - #{{item.language}} <span ng-if="filter"> - {{item.stargazers_count}}*</span></h4>
+              <p>Click Here - <a class="colora" ng-click="openUrl(item)" href="">{{item.html_url}}</a>
+                <h5>{{item.description}}</h5>
+              </p>
+            </li>
+          </ul>
+
+          <div class="spacing"></div>
+        </div>
+      </div><! --/row -->
+    </div><! --/container -->
+
+
+    <!-- *****************************************************************************************************************
+    FOOTER
+    ***************************************************************************************************************** -->
+    <div id="footerwrap">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4">
+            <h4>About</h4>
+            <div class="hline-w"></div>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+          </div>
+          <div class="col-lg-4">
+            <h4>Social Links</h4>
+            <div class="hline-w"></div>
+            <p>
+              <a href="#"><i class="fa fa-dribbble"></i></a>
+              <a href="#"><i class="fa fa-facebook"></i></a>
+              <a href="#"><i class="fa fa-twitter"></i></a>
+              <a href="#"><i class="fa fa-instagram"></i></a>
+              <a href="#"><i class="fa fa-tumblr"></i></a>
+            </p>
+          </div>
+          <div class="col-lg-4">
+            <h4>Our Bunker</h4>
+            <div class="hline-w"></div>
+            <p>
+              Some Ave, 987,<br/>
+              23890, New York,<br/>
+              United States.<br/>
+            </p>
+          </div>
+
+        </div><! --/row -->
+      </div><! --/container -->
+    </div><! --/footerwrap -->
+  </div>
+
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">
+  <script src="assets/js/bootstrap.min.js"></script>
+  <script>
+  var app = angular.module('myApp', []);
+  app.controller('myCtrl', function($scope,$http) {
+    $scope.firstName = "John";
+    $scope.lastName = "Doe";
+    $scope.searchresults = [];
+    $scope.data = [];
+    $scope.number = 0;
+    $scope.loader = false;
+    $scope.filter = false;
+    $scope.form={
+      searchKeyword: '',
+      stars:0
+    };
+
+    $scope.searchRepositoryUsingLanguage = function(){
+      $scope.loader= true;
+      var url = 'https://api.github.com/search/repositories?q=language:'
+      + $scope.form.searchKeyword;
+      $http.get(url).then(function(response){
+        console.log(response);
+        $scope.searchResults = response.data.items;
+        $scope.number =  response.data.items.length;
+        $scope.loader = false;
+      });
+    };
+
+    $scope.openUrl = function(item){
+      window.open(item.html_url, '_blank')
+    };
+
+    $scope.filterData = function(){
+      $scope.data = [];
+      for(var i=0;i<$scope.searchResults.length;i++){
+        if($scope.searchResults[i].stargazers_count >=1 && $scope.searchResults[i].stargazers_count <= $scope.form.stars){
+          $scope.data.push($scope.searchResults[i]);
+        }
+      }
+      $scope.filter = true;
+    }
+
+    $scope.resetData = function(){
+      $scope.form.stars = 0;
+      $scope.filter = false;
+    };
+});
+</script>
+
+</body>
+</html>
